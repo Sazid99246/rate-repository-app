@@ -14,14 +14,17 @@
     "expo": "~57.0.27",
     "expo-constants": "~57.0.21",
     "expo-status-bar": "~57.0.1",
+    "formik": "^2.4.9",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-native": "0.86.3",
     "react-native-web": "^0.21.0",
-    "react-router-native": "^6.30.6"
+    "react-router-native": "^6.30.6",
+    "yup": "^1.7.1"
   },
   "private": true,
   "devDependencies": {
+    "@types/react": "~19.2.4",
     "eslint": "^9.0.0",
     "eslint-config-expo": "~57.0.2"
   },
