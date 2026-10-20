@@ -54,7 +54,7 @@ describe('RepositoryList', () => {
         <RepositoryListContainer repositories={repositories} />
       );
 
-      const repositoryItems = renderResult.getAllByTestId('repositoryItem');
+      const repositoryItems = await renderResult.findAllByTestId('repositoryItem');
 
       expect(repositoryItems).toHaveLength(2);
 

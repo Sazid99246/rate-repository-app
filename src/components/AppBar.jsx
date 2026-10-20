@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: '#24292e',
     flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   tab: {
     padding: 15,
@@ -51,13 +52,41 @@ const AppBar = () => {
       </Pressable>
 
       {data?.me ? (
-        <Pressable style={styles.tab} onPress={signOut}>
-          <Text style={styles.text}>Sign out</Text>
-        </Pressable>
+        <>
+          <Pressable
+            style={styles.tab}
+            onPress={() => navigate('/myreviews')}
+          >
+            <Text style={styles.text}>My reviews</Text>
+          </Pressable>
+
+          <Pressable
+            style={styles.tab}
+            onPress={() => navigate('/createreview')}
+          >
+            <Text style={styles.text}>Create a review</Text>
+          </Pressable>
+
+          <Pressable style={styles.tab} onPress={signOut}>
+            <Text style={styles.text}>Sign out</Text>
+          </Pressable>
+        </>
       ) : (
-        <Pressable style={styles.tab} onPress={() => navigate('/signin')}>
-          <Text style={styles.text}>Sign in</Text>
-        </Pressable>
+        <>
+          <Pressable
+            style={styles.tab}
+            onPress={() => navigate('/signin')}
+          >
+            <Text style={styles.text}>Sign in</Text>
+          </Pressable>
+
+          <Pressable
+            style={styles.tab}
+            onPress={() => navigate('/signup')}
+          >
+            <Text style={styles.text}>Sign up</Text>
+          </Pressable>
+        </>
       )}
     </View>
   );

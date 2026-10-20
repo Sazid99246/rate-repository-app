@@ -1,9 +1,22 @@
+
 import { useQuery } from '@apollo/client/react';
 import { gql } from '@apollo/client';
 
 const GET_REPOSITORIES = gql`
-  query {
-    repositories {
+  query Repositories(
+    $first: Int!
+    $after: String
+    $orderBy: AllRepositoriesOrderBy!
+    $orderDirection: OrderDirection!
+    $searchKeyword: String
+  ) {
+    repositories(
+      first: $first
+      after: $after
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+      searchKeyword: $searchKeyword
+    ) {
       edges {
         node {
           id
@@ -19,19 +32,56 @@ const GET_REPOSITORIES = gql`
           ownerAvatarUrl
         }
       }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
     }
   }
 `;
 
-const useRepositories = () => {
-  const { data, loading, refetch } = useQuery(GET_REPOSITORIES, {
+const useRepositories = (
+  orderBy = 'CREATED_AT',
+  orderDirection = 'DESC',
+  searchKeyword = '',
+) => {
+  const variables = {
+    first: 5,
+    orderBy,
+    orderDirection,
+    searchKeyword: searchKeyword.trim(),
+  };
+
+  const {
+    data,
+    loading,
+    fetchMore: apolloFetchMore,
+    ...result
+  } = useQuery(GET_REPOSITORIES, {
+    variables,
     fetchPolicy: 'cache-and-network',
   });
 
+  const handleFetchMore = () => {
+    const pageInfo = data?.repositories?.pageInfo;
+
+    if (loading || !pageInfo?.hasNextPage) {
+      return;
+    }
+
+    apolloFetchMore({
+      variables: {
+        ...variables,
+        after: pageInfo.endCursor,
+      },
+    });
+  };
+
   return {
     repositories: data?.repositories,
+    fetchMore: handleFetchMore,
     loading,
-    refetch,
+    ...result,
   };
 };
 
